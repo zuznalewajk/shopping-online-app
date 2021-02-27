@@ -11,15 +11,16 @@ import org.springframework.web.context.WebApplicationContext;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 @Service
 @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class ShoppingCart {
+public class ShoppingCartService {
 
     private Map<Product, Integer> products = new HashMap<>();
     private final ProductRepository productRepository;
 
-    public ShoppingCart(final ProductRepository repository) {
+    public ShoppingCartService(final ProductRepository repository) {
         this.productRepository = repository;
     }
 
@@ -63,6 +64,9 @@ public class ShoppingCart {
         for (Map.Entry<Product, Integer> entry : products.entrySet()) {
 
             Product product = productRepository.getOne(entry.getKey().getId());
+
+            if (product == null)
+                throw new NoSuchElementException();
 
             if (entry.getValue() > product.getQuantity())
                 throw new NotEnoughProductInStockException(product);

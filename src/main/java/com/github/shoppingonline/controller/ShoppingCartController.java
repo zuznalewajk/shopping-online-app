@@ -1,7 +1,7 @@
 package com.github.shoppingonline.controller;
 
 import com.github.shoppingonline.exception.NotEnoughProductInStockException;
-import com.github.shoppingonline.logic.ShoppingCart;
+import com.github.shoppingonline.logic.ShoppingCartService;
 import com.github.shoppingonline.model.Product;
 import com.github.shoppingonline.model.ProductRepository;
 import org.springframework.data.domain.Pageable;
@@ -14,35 +14,35 @@ import java.util.Map;
 @Controller
 public class ShoppingCartController {
 
-    private final ShoppingCart shoppingCart;
+    private final ShoppingCartService shoppingCartService;
     private final ProductRepository productRepository;
 
-    public ShoppingCartController(ShoppingCart shoppingCart, final ProductRepository repo) {
-        this.shoppingCart = shoppingCart;
+    public ShoppingCartController(ShoppingCartService shoppingCartService, final ProductRepository repo) {
+        this.shoppingCartService = shoppingCartService;
         this.productRepository = repo;
     }
 
     @GetMapping("/cart")
     ResponseEntity<Map<Product, Integer>> readAllProductsInCart(Pageable page) {
-        return ResponseEntity.ok(shoppingCart.getProducts());
+        return ResponseEntity.ok(shoppingCartService.getProducts());
     }
 
     @PostMapping("/cart/{id}")
     void addProduct(@PathVariable int id) {
         productRepository.findById(id)
-                .ifPresent(shoppingCart::addProduct);
+                .ifPresent(shoppingCartService::addProduct);
     }
 
     @DeleteMapping("/cart/{id}")
     void deleteProduct(@PathVariable int id) {
         productRepository.findById(id)
-                .ifPresent(shoppingCart::removeProduct);
+                .ifPresent(shoppingCartService::removeProduct);
     }
 
     @GetMapping("/cart/checkout")
     void checkOut() {
         try {
-            shoppingCart.checkOut();
+            shoppingCartService.checkOut();
         } catch (NotEnoughProductInStockException e) {
             e.printStackTrace();
         }
