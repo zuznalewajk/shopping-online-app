@@ -125,21 +125,3 @@ class ShoppingCartServiceTest {
 
 }
 
-   /* @Test
-    @DisplayName("should throw IllegalStateException when configured to allow just 1 group and the other undone group exists")
-    void createGroup_noMultipleGroupsConfig_And_openGroups_throwsIllegalStateException() {
-        // given
-        TaskGroupRepository mockGroupRepository = groupRepositoryReturning(true);
-        // and
-        TaskConfigurationProperties mockConfig = configurationReturning(false);
-        // system under test
-        var toTest = new ProjectService(null, mockGroupRepository, null, mockConfig);
-
-        // when
-        var exception = catchThrowable(() ->  toTest.createGroup(LocalDateTime.now(), 0));
-
-        // then
-        assertThat(exception)
-                .isInstanceOf(IllegalStateException.class)
-                .hasMessageContaining("one undone group");
-    }*/
