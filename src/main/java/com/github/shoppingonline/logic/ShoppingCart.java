@@ -19,11 +19,11 @@ public class ShoppingCart {
     private Map<Product, Integer> products = new HashMap<>();
     private final ProductRepository productRepository;
 
-    ShoppingCart(final ProductRepository repository) {
+    public ShoppingCart(final ProductRepository repository) {
         this.productRepository = repository;
     }
 
-    void addProduct(Product product) {
+    public void addProduct(Product product) {
         if (products.containsKey(product)) {
             products.replace(product, products.get(product) + 1);
         } else {
@@ -31,7 +31,7 @@ public class ShoppingCart {
         }
     }
 
-    void removeProduct(Product product) {
+    public void removeProduct(Product product) {
         if (products.containsKey(product)) {
             if (products.get(product) > 1) {
                 products.replace(product, products.get(product) - 1);
@@ -42,11 +42,11 @@ public class ShoppingCart {
 
     }
 
-    Map<Product, Integer> getProducts() {
+    public Map<Product, Integer> getProducts() {
         return products;
     }
 
-    BigDecimal getTotal() {
+    public BigDecimal getTotal() {
         return products.entrySet().stream()
                 .map(product -> product.getKey().getPrice()
                         .multiply(BigDecimal.valueOf(product.getValue())))
@@ -54,11 +54,11 @@ public class ShoppingCart {
                 .orElse(BigDecimal.ZERO);
     }
 
-    void clear() {
+    public void clear() {
         products.clear();
     }
 
-    void checkOut() throws NotEnoughProductInStockException {
+    public void checkOut() throws NotEnoughProductInStockException {
 
         for (Map.Entry<Product, Integer> entry : products.entrySet()) {
 
