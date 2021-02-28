@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Map;
 
@@ -23,28 +24,36 @@ public class ShoppingCartController {
     }
 
     @GetMapping("/cart")
-    ResponseEntity<Map<Product, Integer>> readAllProductsInCart(Pageable page) {
-        return ResponseEntity.ok(shoppingCartService.getProducts());
+    ModelAndView shoppingCart() {
+
+        ModelAndView model = new ModelAndView("/shoppingCart");
+        model.addObject("products", shoppingCartService.getProducts());
+        //model.addObject("total", shoppingCartService.getTotal());
+        //return ResponseEntity.ok(productRepository.findAll(page).getContent());
+        return model;
     }
 
-    @PostMapping("/cart/{id}")
-    void addProduct(@PathVariable int id) {
+    @GetMapping("/cart/{id}")
+    ModelAndView addProduct(@PathVariable int id) {
         productRepository.findById(id)
                 .ifPresent(shoppingCartService::addProduct);
+        return shoppingCart();
     }
 
-    @DeleteMapping("/cart/{id}")
-    void deleteProduct(@PathVariable int id) {
+    @GetMapping("/cart/delete/{id}")
+    ModelAndView deleteProduct(@PathVariable int id) {
         productRepository.findById(id)
                 .ifPresent(shoppingCartService::removeProduct);
+        return shoppingCart();
     }
 
     @GetMapping("/cart/checkout")
-    void checkOut() {
+    ModelAndView checkOut() {
         try {
             shoppingCartService.checkOut();
         } catch (NotEnoughProductInStockException e) {
             e.printStackTrace();
         }
+        return shoppingCart();
     }
 }

@@ -7,6 +7,7 @@ import org.springframework.data.jpa.domain.Specification;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface ProductRepository {
 
@@ -20,7 +21,7 @@ public interface ProductRepository {
 
     Product save(Product product);
 
-    Product save(Collection products);
+    List<Product> saveAll(Iterable<Product> products);
 
     void flush();
 

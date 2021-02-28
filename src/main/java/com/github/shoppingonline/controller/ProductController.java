@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
@@ -26,8 +27,11 @@ class ProductController {
     }
 
     @GetMapping
-    ResponseEntity<List<Product>> readAllProducts(Pageable page) {
-        return ResponseEntity.ok(productRepository.findAll(page).getContent());
+    ModelAndView readAllProducts(Pageable page) {
+        ModelAndView model = new ModelAndView("/products");
+        model.addObject("products", productRepository.findAll(page));
+        //return ResponseEntity.ok(productRepository.findAll(page).getContent());
+        return model;
     }
 
     @GetMapping("/search")

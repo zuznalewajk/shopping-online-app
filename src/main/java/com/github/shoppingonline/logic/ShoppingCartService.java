@@ -75,7 +75,7 @@ public class ShoppingCartService {
 
         }
 
-        productRepository.save(products.keySet());
+        productRepository.saveAll(products.keySet());
         productRepository.flush();
         this.clear();
     }
