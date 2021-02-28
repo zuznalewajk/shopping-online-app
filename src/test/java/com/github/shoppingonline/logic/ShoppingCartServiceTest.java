@@ -85,41 +85,8 @@ class ShoppingCartServiceTest {
         assertEquals(result, BigDecimal.ZERO);
     }
 
-    private static class InMemoryProductRepository implements ProductRepository {
 
-        private int index = 0;
-        private Map<Integer, Product> map = new HashMap<>();
 
-        @Override
-        public Page<Product> findAll(Pageable page) {
-            return null;
-        }
-
-        @Override
-        public Optional<Product> findById(Integer id) {
-            return Optional.empty();
-        }
-
-        @Override
-        public Product getOne(Integer id) {
-            return null;
-        }
-
-        @Override
-        public Product save(Product product) {
-            return null;
-        }
-
-        @Override
-        public Product save(Collection products) {
-            return null;
-        }
-
-        @Override
-        public void flush() {
-
-        }
-    }
 
 
 
