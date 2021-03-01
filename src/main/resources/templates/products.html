@@ -20,12 +20,20 @@
                 </svg>
             </a>
         </div>
+        <div class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/account">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                </svg>
+            </a>
+        </div>
+
 
     </div>
 </nav>
 
 <div class="container-sm" >
-<div class="form-group column col-lg-2">
+<div class="form-group column col-lg-3">
 
 
     <div class="col-xs-3">
@@ -37,8 +45,8 @@
         <input class="form-control" id="maxPrice" type="text">
     </div>
 
-    <div class="col-xs-3">
-        <label for="formGroupExampleInput" class="form-label">What are you looking for</label>
+    <div class="col-xs-4">
+        <label for="formGroupExampleInput" class="form-label">What are you looking for?</label>
         <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Dress">
     </div>
     <div class="col-xs-3">
@@ -50,22 +58,21 @@
     <div>
         <a href="#" class="btn btn-light">Filter</a>
     </div>
+</div>
 
 </div>
-</div>
-<div class="card-deck">
-<div th:each="product : ${products}" >
-    <div class="card text-center" style="width: 18rem;">
-        <img src="https://lp2.hm.com/hmgoepprod?set=quality%5B79%5D%2Csource%5B%2F6b%2F3f%2F6b3f5f51e4db457eaa3740ebade9321d85fd732f.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BDESCRIPTIVESTILLLIFE%5D%2Cres%5Bm%5D%2Chmver%5B1%5D&call=url[file:/product/main]" class="card-img-top" alt="...">
-        <div class="card-body">
-            <h5 class="card-title" th:text="${product.name}"></h5>
-            <p class="card-text" th:text="${product.description}"></p>
-            <h6 class="card-title" th:text="|${product.price} $|"></h6>
-            <a th:href="@{'/cart/{id}'(id=${product.id})}" class="btn btn-light">Add to cart</a>
-
+<div class="card-deck mx-auto">
+    <div th:each="product : ${products}" >
+        <div class="card text-center" style="width: 18rem;">
+            <img src="https://lp2.hm.com/hmgoepprod?set=quality%5B79%5D%2Csource%5B%2F6b%2F3f%2F6b3f5f51e4db457eaa3740ebade9321d85fd732f.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BDESCRIPTIVESTILLLIFE%5D%2Cres%5Bm%5D%2Chmver%5B1%5D&call=url[file:/product/main]" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title" th:text="${product.name}"></h5>
+                <p class="card-text" th:text="${product.description}"></p>
+                <h6 class="card-title" th:text="|${product.price} $|"></h6>
+                <a th:href="@{'/cart/{id}'(id=${product.id})}" class="btn btn-light">Add to cart</a>
+            </div>
         </div>
     </div>
-</div>
 </div>
 </body>
 </html>
