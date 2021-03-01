@@ -1,29 +1,54 @@
 package com.github.shoppingonline.model;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Set;
 
 @Entity
 @Table(name = "clients")
-public class Client {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotBlank(message = "Client first name must be not empty.")
+    @NotBlank(message = "User first name must be not empty.")
     private String firstName;
 
-    @NotBlank(message = "Client last name must be not empty.")
+    @NotBlank(message = "User last name must be not empty.")
     private String lastName;
 
-    @NotBlank(message = "Client email must be not empty.")
+    @NotBlank(message = "User email must be not empty.")
     private String email;
 
-    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "client")
+    @NotBlank(message = "User password must be not empty.")
+    @Length(min = 5, message = "*Password must have at least 6 characters")
+    private String password;
+
+    @Enumerated(EnumType.ORDINAL)
+    private Role role;
+
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "user")
     private Set<Order> orders;
 
-    public Client() {
+    public User() {
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public int getId() {

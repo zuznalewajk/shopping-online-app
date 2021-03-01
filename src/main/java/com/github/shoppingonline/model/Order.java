@@ -1,7 +1,6 @@
 package com.github.shoppingonline.model;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Set;
 
 @Entity
@@ -15,7 +14,7 @@ public class Order {
     };
     @ManyToOne
     @JoinColumn(name = "client_id")
-    private Client client;
+    private User user;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
     private Set<OrderDetails> orderDetails;
@@ -24,8 +23,8 @@ public class Order {
         return id;
     }
 
-    public Client getClient() {
-        return client;
+    public User getClient() {
+        return user;
     }
 
     public Set<OrderDetails> getOrderDetails() {

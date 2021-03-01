@@ -1,4 +1,5 @@
 package com.github.shoppingonline.model;
 
-public interface ClientRepository {
+public enum Role {
+    USER, ADMIN;
 }
