@@ -2,6 +2,6 @@ package com.github.shoppingonline.model;
 
 public interface UserRepository {
 
-    User findByEmail(String email);
-    User save(User user);
+    public User findByEmail(String email);
+    public User save(User user);
 }
