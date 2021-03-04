@@ -1,63 +1,73 @@
 package com.github.shoppingonline.specification;
 
 import java.math.BigDecimal;
-import java.util.Optional;
 import java.util.Set;
 
 public class ProductSearchCriteria {
 
-    private Optional<BigDecimal> minPrice;
-    private Optional<BigDecimal> maxPrice;
-    private Optional<Double> minStarRating;
-    private Optional<Set<String>> colors;
-    private Optional<String> name;
+    private BigDecimal minPrice;
+    private BigDecimal maxPrice;
+    private Double minStarRating;
+    private Set<String> colors;
+    private String name;
 
     public ProductSearchCriteria(BigDecimal minPrice, BigDecimal maxPrice, Double minStarRating, Set<String> colors, String name) {
-        this.minPrice = Optional.ofNullable(minPrice);
-        this.maxPrice = Optional.ofNullable(maxPrice);
-        this.minStarRating = Optional.ofNullable(minStarRating);
-        this.colors = Optional.ofNullable(colors);
-        this.name = Optional.ofNullable(name);
+        this.minPrice = minPrice;
+        this.maxPrice = maxPrice;
+        this.minStarRating = minStarRating;
+        this.colors = colors;
+        this.name = name;
     }
 
-    public Optional<BigDecimal> getMinPrice() {
+    public BigDecimal getMinPrice() {
+        if (minPrice == null)
+            return BigDecimal.valueOf(0);
         return minPrice;
     }
 
-    public void setMinPrice(Optional<BigDecimal> minPrice) {
+    public void setMinPrice(BigDecimal minPrice) {
         this.minPrice = minPrice;
     }
 
-    public Optional<BigDecimal> getMaxPrice() {
+    public BigDecimal getMaxPrice() {
+        if (maxPrice == null)
+            return BigDecimal.valueOf(Double.MAX_VALUE);
         return maxPrice;
     }
 
-    public void setMaxPrice(Optional<BigDecimal> maxPrice) {
+    public void setMaxPrice(BigDecimal maxPrice) {
         this.maxPrice = maxPrice;
     }
 
-    public Optional<Double> getMinStarRating() {
+    public Double getMinStarRating() {
+        if (minStarRating == null)
+            return (double) 0;
         return minStarRating;
     }
 
-    public void setMinStarRating(Optional<Double> minStarRating) {
+    public void setMinStarRating(Double minStarRating) {
         this.minStarRating = minStarRating;
     }
 
-    public Optional<Set<String>> getColors() {
+    public Set<String> getColors() {
+        if (colors == null)
+            return Set.of();
         return colors;
     }
 
-    public void setColors(Optional<Set<String>> colors) {
+    public void setColors(Set<String> colors) {
         this.colors = colors;
     }
 
-    public Optional<String> getName() {
+    public String getName() {
+        if (name.equals(""))
+            return "%";
         return name;
     }
 
-    public void setName(Optional<String> name) {
+    public void setName(String name) {
         this.name = name;
     }
+
 
 }

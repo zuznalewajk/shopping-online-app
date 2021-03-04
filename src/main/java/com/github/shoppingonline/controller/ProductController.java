@@ -7,6 +7,7 @@ import com.github.shoppingonline.specification.ProductSpecification;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -26,30 +27,30 @@ class ProductController {
         this.productRepository = productRepository;
     }
 
-    @GetMapping
+    @GetMapping(params = {"!minPrice", "!maxPrice", "!starRating", "!color", "!name"})
     ModelAndView readAllProducts(Pageable page) {
         ModelAndView model = new ModelAndView("/products");
         model.addObject("products", productRepository.findAll(page));
-        //return ResponseEntity.ok(productRepository.findAll(page).getContent());
+
         return model;
     }
 
-    @GetMapping("/search")
-    public ResponseEntity<?> findProducts(
-            @RequestParam(required = false)
+    @GetMapping()
+    ModelAndView findProducts(ModelAndView model,
+                        @RequestParam(required = false)
                     BigDecimal minPrice,
 
-            @RequestParam(required = false)
+                        @RequestParam(required = false)
                     BigDecimal maxPrice,
 
-            @RequestParam(required = false)
+                        @RequestParam(required = false)
                     Double starRating,
 
-            @RequestParam(name="color", required = false)
+                        @RequestParam(name="color", required = false)
                     Set<String> colors,
 
-            @RequestParam(name="name", required = false)
-                    String name) {
+                        @RequestParam(name="name", required = false)
+                    String name, Pageable page) {
 
         ProductSearchCriteria searchCriteria = new ProductSearchCriteria(
                 minPrice,
@@ -58,8 +59,17 @@ class ProductController {
                 colors,
                 name);
 
-        Specification<Product> spec = ProductSpecification.createProductSpecifications(searchCriteria);
-        return ResponseEntity.ok(productRepository.findAll(spec));
+
+            System.out.println("minPrice " + minPrice + ", " + "max " + maxPrice);
+            System.out.println(searchCriteria.getMinPrice());
+        System.out.println(searchCriteria.getMaxPrice());
+        System.out.println(searchCriteria.getName());
+
+            Specification<Product> spec = ProductSpecification.createProductSpecifications(searchCriteria);
+            System.out.println("Col size " + productRepository.findAll(spec).size());
+            model.addObject("products", productRepository.findAll(spec));
+        //return ResponseEntity.ok(productRepository.findAll(page).getContent());
+        return model;
 
         }
 
