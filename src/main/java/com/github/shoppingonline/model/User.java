@@ -22,8 +22,7 @@ public class User {
     @NotBlank(message = "User email must be not empty.")
     private String email;
 
-    @NotBlank(message = "User password must be not empty.")
-    @Length(min = 5, message = "*Password must have at least 6 characters")
+    @Length(min = 6, message = "User password must be not empty.")
     private String password;
 
     @Enumerated(EnumType.ORDINAL)

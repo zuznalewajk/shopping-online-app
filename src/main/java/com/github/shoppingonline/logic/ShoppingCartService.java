@@ -3,10 +3,8 @@ package com.github.shoppingonline.logic;
 import com.github.shoppingonline.exception.NotEnoughProductInStockException;
 import com.github.shoppingonline.model.Product;
 import com.github.shoppingonline.model.ProductRepository;
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.annotation.SessionScope;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -14,7 +12,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 
 @Service
-@Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
+@SessionScope
 public class ShoppingCartService {
 
     private Map<Product, Integer> products = new HashMap<>();
@@ -78,6 +76,16 @@ public class ShoppingCartService {
         productRepository.saveAll(products.keySet());
         productRepository.flush();
         this.clear();
+    }
+
+    public boolean isEmpty() {
+        return products.isEmpty();
+    }
+
+    public int getQuantityOfProductsInCart() {
+        return products.values().stream()
+                .reduce(Integer::sum)
+                .orElse(0);
     }
 
 }

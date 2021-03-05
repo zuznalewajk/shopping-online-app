@@ -1,5 +1,7 @@
 package com.github.shoppingonline.controller;
 
+import com.github.shoppingonline.logic.ProductService;
+import com.github.shoppingonline.logic.ShoppingCartService;
 import com.github.shoppingonline.model.Product;
 import com.github.shoppingonline.model.ProductRepository;
 import com.github.shoppingonline.specification.ProductSearchCriteria;
@@ -22,15 +24,18 @@ import java.util.Set;
 class ProductController {
 
     private final ProductRepository productRepository;
+    private final ShoppingCartService shoppingCartService;
 
-    ProductController(ProductRepository productRepository) {
+    ProductController(final ProductRepository productRepository, final ShoppingCartService service) {
         this.productRepository = productRepository;
+        this.shoppingCartService = service;
     }
 
     @GetMapping(params = {"!minPrice", "!maxPrice", "!starRating", "!color", "!name"})
     ModelAndView readAllProducts(Pageable page) {
         ModelAndView model = new ModelAndView("/products");
         model.addObject("products", productRepository.findAll(page));
+        model.addObject("totalProducts", shoppingCartService.getQuantityOfProductsInCart());
 
         return model;
     }
@@ -58,17 +63,9 @@ class ProductController {
                 starRating,
                 colors,
                 name);
+        Specification<Product> spec = ProductSpecification.createProductSpecifications(searchCriteria);
+        model.addObject("products", productRepository.findAll(spec));
 
-
-            System.out.println("minPrice " + minPrice + ", " + "max " + maxPrice);
-            System.out.println(searchCriteria.getMinPrice());
-        System.out.println(searchCriteria.getMaxPrice());
-        System.out.println(searchCriteria.getName());
-
-            Specification<Product> spec = ProductSpecification.createProductSpecifications(searchCriteria);
-            System.out.println("Col size " + productRepository.findAll(spec).size());
-            model.addObject("products", productRepository.findAll(spec));
-        //return ResponseEntity.ok(productRepository.findAll(page).getContent());
         return model;
 
         }

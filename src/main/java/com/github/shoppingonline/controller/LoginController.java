@@ -50,14 +50,12 @@ public class LoginController {
         User userExists = userService.findByEmail(user.getEmail());
         if (userExists != null) {
             bindingResult
-                    .rejectValue("userName", "error.user",
+                    .rejectValue("email", "error.user",
                             "There is already a user registered with the user name provided");
         }
         if (!bindingResult.hasErrors()) {
             userService.saveUser(user);
-            modelAndView.addObject("successMessage", "User has been registered successfully");
-            modelAndView.addObject("user", new User());
-
+            modelAndView.addObject("successMessage", "User has been registered successfully!");
         }
         modelAndView.setViewName("registration");
         return modelAndView;
@@ -73,4 +71,6 @@ public class LoginController {
         //modelAndView.setViewName("admin/home");
         return modelAndView;
     }
+
+
 }
