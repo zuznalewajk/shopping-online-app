@@ -6,7 +6,7 @@ create table products
     quantity int not null,
     price decimal(5,2)   not null,
     color varchar(50) not null,
-    starRating decimal(5,2),
+    star_rating decimal(5,2),
     createdOn date default current_timestamp(),
     updatedOn date
 );

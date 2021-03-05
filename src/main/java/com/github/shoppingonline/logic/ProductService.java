@@ -48,4 +48,8 @@ public class ProductService {
     void flush() {
         productRepository.flush();
     };
+
+    List<String> findAllCategory() {
+        return productRepository.findAllCategories();
+    }
 }

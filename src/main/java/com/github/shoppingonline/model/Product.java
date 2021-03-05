@@ -25,6 +25,10 @@ public class Product {
 
     private double starRating;
 
+    private String imageUrl;
+
+    private String category;
+
     private LocalDateTime createdOn;
 
     private LocalDateTime updatedOn;
@@ -83,6 +87,14 @@ public class Product {
 
     public void setStarRating(double starRating) {
         this.starRating = starRating;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public String getCategory() {
+        return category;
     }
 
     public LocalDateTime getCreatedOn() {
