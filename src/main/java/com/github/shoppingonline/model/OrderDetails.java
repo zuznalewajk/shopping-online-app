@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
+@IdClass(value=OrderDetailsKey.class)
 @Table(name = "order_details")
 public class OrderDetails implements Serializable {
     @Id
@@ -17,6 +18,16 @@ public class OrderDetails implements Serializable {
     private Order order;
 
     private int quantity;
+
+    public OrderDetails() {
+
+    }
+
+    public OrderDetails(Product product, Order order, int quantity) {
+        this.product = product;
+        this.order = order;
+        this.quantity = quantity;
+    }
 
     public Product getProduct() {
         return product;

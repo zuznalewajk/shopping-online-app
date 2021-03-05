@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+<body>
+
+<div th:insert="products.html :: navbar"> </div>
+
+<div class="card-deck mx-auto">
+    <div th:each="order : ${orders}" >
+        <div class="card bg-light mb-3" style="max-width: 18rem;">
+            <div class="card-header" th:text="|ORDER ID ${order.id}|"></div>
+            <div class="card-body">
+                <h6 class="card-title">23.05.2020</h6>
+                <div class="card-text">
+                    <ul class="list-group list-group-flush">
+                        <div th:each="detail : ${order.getOrderDetails()}" >
+                            <li class="list-group-item" th:text="|${detail.getProduct().getName()} x ${detail.getQuantity()}|"></li>
+                        </div>
+                    </ul>
+                    <h6 th:text="|Total ${order.getTotal()} $|"></h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
