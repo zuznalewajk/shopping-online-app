@@ -9,10 +9,13 @@
 </head>
 <body>
 
-<nav class="navbar navbar-light bg-light navbar-static-top">
+<div th:fragment="navbar">
+<nav class="navbar navbar-expand-sm navbar-light bg-light  justify-content-end">
     <div class="container-fluid">
         <a class="navbar-brand" href="/products">Shop</a>
 
+        <div class="collapse navbar-collapse flex-grow-0" id="navbarSupportedContent">
+        <ul class="navbar-nav text-right">
         <div class="nav-item">
             <a class="nav-link active" aria-current="page" href="/cart">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag" viewBox="0 0 16 16">
@@ -20,6 +23,7 @@
                 </svg>
             </a>
         </div>
+
         <div class="nav-item">
             <a class="nav-link active" aria-current="page" href="/account">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
@@ -27,37 +31,50 @@
                 </svg>
             </a>
         </div>
-
-
-    </div>
-</nav>
-
-<div class="container-sm" >
-<div class="form-group column col-lg-3">
-
-
-    <div class="col-xs-3">
-        <label for="minPrice">Min $</label>
-        <input class="form-control" id="minPrice" type="text">
-    </div>
-    <div class="col-xs-3">
-        <label for="maxPrice">Max $</label>
-        <input class="form-control" id="maxPrice" type="text">
-    </div>
-
-    <div class="col-xs-4">
-        <label for="formGroupExampleInput" class="form-label">What are you looking for?</label>
-        <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Dress">
-    </div>
-    <div class="col-xs-3">
-        <label class="form-label" for="starRatingRange">Star rating</label>
-        <div class="range">
-            <input type="range" class="form-range" min="0" max="5" id="starRatingRange" />
+        </ul>
         </div>
     </div>
+
+</nav>
+</div>
+
+<div class="container-sm" >
+    <div class="mt-4 col-md-12"></div>
+<div class="form-group column col-lg-10 mx-auto">
+    <form th:action="@{/products}" method="get">
+
+        <div class="form-row">
+            <div class="form-group col-md-3">
+
+                <input type="text" th:name="minPrice" placeholder="Min $"
+                       class="form-control"/>
+            </div>
+
+            <div class="form-group col-md-3">
+                <input type="text" th:name="maxPrice" placeholder="Max $"
+                       class="form-control"/>
+            </div>
+
+            <div class="form-group col-md-3">
+                <input type="text" th:name="starRating" placeholder="Star rating"
+                       class="form-control"/>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-9">
+                <input type="text" th:name="name" placeholder="What are you looking for?"
+                       class="form-control"/>
+            </div>
+
+
+        </div>
+
+
     <div>
-        <a href="#" class="btn btn-light">Filter</a>
+        <button class="btn btn-light col-md-3" type="submit">Filter</button>
     </div>
+    </form>
 </div>
 
 </div>
@@ -69,7 +86,11 @@
                 <h5 class="card-title" th:text="${product.name}"></h5>
                 <p class="card-text" th:text="${product.description}"></p>
                 <h6 class="card-title" th:text="|${product.price} $|"></h6>
-                <a th:href="@{'/cart/{id}'(id=${product.id})}" class="btn btn-light">Add to cart</a>
+
+                <form th:action="@{/cart/add}" method="post">
+                    <input type="hidden" th:value="${product.id}" name="id"/>
+                    <button class="btn btn-light " type="submit">Add to cart</button>
+                </form>
             </div>
         </div>
     </div>

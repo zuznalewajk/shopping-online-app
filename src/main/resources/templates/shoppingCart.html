@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,39 +8,59 @@
 </head>
 <body>
 
-<nav class="navbar navbar-light bg-light navbar-static-top">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="/products">Shop</a>
+<div th:insert="products.html :: navbar"> </div>
 
-        <div class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag" viewBox="0 0 16 16">
-                    <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"/>
-                </svg>
-            </a>
-        </div>
-
+<div class="col-xs-1 text-center">
+    <div class="mx-auto" th:unless="${isEmpty}">
+    <div class="mt-4 col-md-12"></div>
+    <div>
+        <h4>PRODUCTS IN CART:</h4>
     </div>
-</nav>
-
-
-<div class="card-deck">
-    <div th:each="product : ${products}" >
-        <div class="card text-center" style="width: 18rem;">
-            <img src="https://lp2.hm.com/hmgoepprod?set=quality%5B79%5D%2Csource%5B%2F6b%2F3f%2F6b3f5f51e4db457eaa3740ebade9321d85fd732f.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BDESCRIPTIVESTILLLIFE%5D%2Cres%5Bm%5D%2Chmver%5B1%5D&call=url[file:/product/main]" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title" th:text="${product.key.name}"></h5>
-                <p class="card-text" th:text="|${product.key.price} '$'|"></p>
-                <h6 class="card-title" th:text="|${product.value} items|"></h6>
-                <a th:href="@{'/cart/delete/{id}'(id=${product.key.id})}" class="btn btn-light">Delete from cart</a>
+    <div class="mt-4 col-md-12"></div>
+    <div class="card-deck column col-lg-4  mx-auto">
+        <div th:each="product : ${products}" >
+            <div class="card text-center" style="max-width: 540px;">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+                        <img src="https://lp2.hm.com/hmgoepprod?set=quality%5B79%5D%2Csource%5B%2F6b%2F3f%2F6b3f5f51e4db457eaa3740ebade9321d85fd732f.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BDESCRIPTIVESTILLLIFE%5D%2Cres%5Bm%5D%2Chmver%5B1%5D&call=url[file:/product/main]" class="card-img-top" alt="...">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${product.key.name}"></h5>
+                            <p class="card-text" th:text="|${product.key.price} $|"></p>
+                            <h6 class="card-title" th:text="|${product.value} items|"></h6>
+                            <form th:action="@{/cart/delete}" method="post">
+                                <input type="hidden" th:value="${product.key.id}" name="id"/>
+                                <button class="btn btn-light " type="submit">Remove from cart</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
             </div>
         </div>
-    </div>
-</div>
 
-<div>
-    <a href="#" class="btn btn-light">Clear cart</a>
-    <a th:href="@{'/cart/checkout'}" class="btn btn-light">Checkout</a>
+    <hr>
+        <div>
+            <h5 th:text="|Total ${total} $|"></h5>
+        </div>
+
+        <div sec:authorize="isAuthenticated()">
+            <a th:href="@{'/cart/clear'}" class="btn btn-light">Clear cart</a>
+            <a th:href="@{'/cart/checkout'}" class="btn btn-light">Checkout</a>
+        </div>
+
+        <div sec:authorize="isAnonymous()">
+            <a th:href="@{'/cart/clear'}" class="btn btn-light">Clear cart</a>
+            <a th:href="@{'/account'}" class="btn btn-light">Checkout</a>
+        </div>
+
+
+</div>
+<div class="mt-4 col-md-12"></div>
+<div  th:if="${isEmpty}">
+    <h4>YOUR SHOPPING CART IS EMPTY!</h4>
+</div>
 </div>
 
 </body>
