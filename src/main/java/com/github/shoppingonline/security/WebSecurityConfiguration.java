@@ -1,7 +1,6 @@
 package com.github.shoppingonline.security;
 
 import com.github.shoppingonline.logic.AppUserDetailsService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,7 +15,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private BCryptPasswordEncoder bCryptPasswordEncoder;
-
     private AppUserDetailsService userDetailsService;
 
     public WebSecurityConfiguration(BCryptPasswordEncoder bCryptPasswordEncoder, AppUserDetailsService userDetailsService) {
@@ -36,13 +34,15 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http.
                 authorizeRequests()
-                .antMatchers("/").permitAll()
+                .antMatchers("/cart/delete/**").permitAll()
+                .antMatchers("/cart/add/**").permitAll()
                 .antMatchers("/h2-console").permitAll()
-                .antMatchers("/products").permitAll()
+                .antMatchers("/products/**").permitAll()
                 .antMatchers("/cart").permitAll()
                 .antMatchers("/account").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/registration").permitAll()
+                .antMatchers("/cart/checkout").hasAuthority("USER")
                 .antMatchers("/admin/**").hasAuthority("ADMIN").anyRequest()
                 .authenticated().and().csrf().disable().formLogin()
                 .loginPage("/login").failureUrl("/login?error=true")
