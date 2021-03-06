@@ -1,6 +1,5 @@
 package com.github.shoppingonline.controller;
 
-import com.github.shoppingonline.logic.ProductService;
 import com.github.shoppingonline.logic.ShoppingCartService;
 import com.github.shoppingonline.model.Product;
 import com.github.shoppingonline.model.ProductRepository;
@@ -9,14 +8,12 @@ import com.github.shoppingonline.specification.ProductSpecification;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.net.URI;
-import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -55,7 +52,7 @@ class ProductController {
                     Set<String> colors,
 
                         @RequestParam(name="name", required = false)
-                    String name, Pageable page) {
+                    String name) {
 
         ProductSearchCriteria searchCriteria = new ProductSearchCriteria(
                 minPrice,
@@ -67,12 +64,10 @@ class ProductController {
         model.addObject("products", productRepository.findAll(spec));
 
         return model;
-
-        }
+    }
 
     @GetMapping("/{id}")
     ResponseEntity<Product> readProduct(@PathVariable int id) {
-
         return productRepository.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());

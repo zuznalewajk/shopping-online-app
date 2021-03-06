@@ -38,7 +38,5 @@ public final class ProductSpecification {
                 builder.greaterThanOrEqualTo(root.<Double> get("starRating"), starRating);
     }
 
-
-
 }
 

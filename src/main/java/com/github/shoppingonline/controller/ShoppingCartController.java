@@ -1,10 +1,10 @@
 package com.github.shoppingonline.controller;
 
 import com.github.shoppingonline.exception.NotEnoughProductInStockException;
-import com.github.shoppingonline.logic.AppUserDetailsService;
 import com.github.shoppingonline.logic.OrderService;
 import com.github.shoppingonline.logic.ShoppingCartService;
 import com.github.shoppingonline.logic.UserService;
+import com.github.shoppingonline.model.Order;
 import com.github.shoppingonline.model.Product;
 import com.github.shoppingonline.model.ProductRepository;
 import com.github.shoppingonline.model.User;
@@ -13,12 +13,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.security.Principal;
 
 
 @Controller
@@ -43,7 +40,7 @@ public class ShoppingCartController {
         model.addObject("total", shoppingCartService.getTotal());
         model.addObject("totalQuantityOfProducts", shoppingCartService.getQuantityOfProductsInCart());
         model.addObject("isEmpty", shoppingCartService.isEmpty());
-        //return ResponseEntity.ok(productRepository.findAll(page).getContent());
+
         return model;
     }
 
@@ -71,13 +68,18 @@ public class ShoppingCartController {
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = userService.findByEmail(auth.getName());
-            orderService.placeOrder(shoppingCartService.getProducts(), (User) user);
+            Order order = orderService.placeOrder(shoppingCartService.getProducts(), user);
             shoppingCartService.checkOut();
+            ModelAndView model = new ModelAndView("/orderSummary");
+            model.addObject("order", order);
+            return model;
 
         } catch (NotEnoughProductInStockException e) {
             shoppingCartService.clear();
             e.printStackTrace();
         }
+
         return shoppingCart();
     }
+
 }

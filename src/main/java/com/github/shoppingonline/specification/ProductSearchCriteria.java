@@ -62,7 +62,7 @@ public class ProductSearchCriteria {
     public String getName() {
         if (name.equals(""))
             return "%";
-        return name;
+        return "%" + name.toLowerCase() + "%";
     }
 
     public void setName(String name) {

@@ -38,7 +38,6 @@ public class ShoppingCartService {
                 products.remove(product);
             }
         } else throw new IllegalArgumentException("Product not found");
-
     }
 
     public Map<Product, Integer> getProducts() {

@@ -18,6 +18,9 @@ public class OrderService {
     }
 
     public Order placeOrder(Map<Product, Integer> products, User user) {
+        if (products.isEmpty()) {
+            throw new IllegalArgumentException("Empty cart");
+        }
         var newOrder =  new Order(user);
         Order order = orderRepository.save(newOrder);
         for (Map.Entry<Product, Integer> entry : products.entrySet()) {

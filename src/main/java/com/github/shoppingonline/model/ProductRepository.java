@@ -5,7 +5,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.Query;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
