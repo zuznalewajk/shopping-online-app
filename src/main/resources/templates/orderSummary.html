@@ -9,42 +9,21 @@
 </head>
 <body>
 
-<nav class="navbar navbar-light bg-light navbar-static-top">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="/products">Shop</a>
+<div th:insert="products.html :: navbar"> </div>
 
-        <div class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/cart">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag" viewBox="0 0 16 16">
-                    <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"/>
-                </svg>
-            </a>
+<div class="col-xs-1 text-center">
+    <div class="mx-auto" th:unless="${isEmpty}">
+        <div class="mt-4 col-md-12"></div>
+        <div>
+            <h4>THANK YOU FOR YOUR ORDER!</h4>
         </div>
-        <div class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/account">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
-                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
-                </svg>
-            </a>
-        </div>
-
-
-    </div>
-</nav>
-
-
-<div class="card-deck mx-auto">
-    <div th:each="product : ${products}" >
-        <div class="card text-center" style="width: 18rem;">
-            <img src="https://lp2.hm.com/hmgoepprod?set=quality%5B79%5D%2Csource%5B%2F6b%2F3f%2F6b3f5f51e4db457eaa3740ebade9321d85fd732f.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BDESCRIPTIVESTILLLIFE%5D%2Cres%5Bm%5D%2Chmver%5B1%5D&call=url[file:/product/main]" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title" th:text="${product.name}"></h5>
-                <p class="card-text" th:text="${product.description}"></p>
-                <h6 class="card-title" th:text="|${product.price} $|"></h6>
-                <a th:href="@{'/cart/{id}'(id=${product.id})}" class="btn btn-light">Buy</a>
-            </div>
+        <div>
+            <h5 th:text="|Your order ID: ${order.getId()} |"></h5>
         </div>
     </div>
 </div>
+
+
+
 </body>
 </html>

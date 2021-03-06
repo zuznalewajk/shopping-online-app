@@ -12,13 +12,16 @@
 <div th:insert="products.html :: navbar"> </div>
 
 <div sec:authorize="isAuthenticated()">
-    <h2>Orders</h2>
+    <div class="mt-4 col-md-12"></div>
+    <div class="d-flex justify-content-center mt-4">
+        <h2>You are logged in!</h2>
+    </div>
     <div class="d-flex justify-content-center mt-4">
         <a th:href="@{'/account/orders'}" class="btn btn-light">See your orders</a>
     </div>
-    <div>
-        <form action="#" th:action="@{/logout}" method="post">
-            <input type="submit" value="Logout" />
+    <div class="d-flex justify-content-center mt-4">
+        <form th:action="@{/logout}" method="post">
+            <input class="btn btn-light" type="submit" value="Logout" />
         </form>
     </div>
 </div>

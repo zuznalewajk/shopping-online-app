@@ -11,9 +11,10 @@
 
 <div th:insert="products.html :: navbar"> </div>
 
-<div class="card-deck mx-auto">
-    <div th:each="order : ${orders}" >
-        <div class="card bg-light mb-3" style="max-width: 18rem;">
+
+    <div class="row row-cols-2 justify-content-center" th:each="order : ${orders}" >
+        <div class="col-md-3 col-md-offset-2">
+        <div class="card bg-light mb-2" >
             <div class="card-header" th:text="|ORDER ID ${order.id}|"></div>
             <div class="card-body">
                 <h6 class="card-title">23.05.2020</h6>
@@ -23,11 +24,14 @@
                             <li class="list-group-item" th:text="|${detail.getProduct().getName()} x ${detail.getQuantity()}|"></li>
                         </div>
                     </ul>
+                    <div class="mt-4 col-md-12"></div>
                     <h6 th:text="|Total ${order.getTotal()} $|"></h6>
                 </div>
             </div>
         </div>
-    </div>
+        </div>
+        </div>
+
 </div>
 
 </body>
