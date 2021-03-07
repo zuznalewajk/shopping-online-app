@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Products</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script type="text/javascript" th:src="@{/js/main.js}" src="/js/main.js"></script>
 
 </head>
 <body>
@@ -38,25 +39,24 @@
 </nav>
 </div>
 
-<div class="container-sm" >
-    <div class="mt-4 col-md-12"></div>
+<div class="mt-4 col-md-12"></div>
 <div class="form-group column col-lg-10 mx-auto">
     <form th:action="@{/products}" method="get">
 
         <div class="form-row">
             <div class="form-group col-md-3">
 
-                <input type="text" th:name="minPrice" placeholder="Min $"
+                <input type="number" min="0" max="100000" step="0.01" th:name="minPrice" placeholder="Min $"
                        class="form-control"/>
             </div>
 
             <div class="form-group col-md-3">
-                <input type="text" th:name="maxPrice" placeholder="Max $"
+                <input type="number" min="0" max="100000" step="0.01" th:name="maxPrice" placeholder="Max $"
                        class="form-control"/>
             </div>
 
             <div class="form-group col-md-3">
-                <input type="text" th:name="starRating" placeholder="Star rating"
+                <input type="number" min="0" max="5" step="0.01" th:name="starRating" placeholder="Star rating"
                        class="form-control"/>
             </div>
         </div>
@@ -77,12 +77,10 @@
     </form>
 </div>
 
-</div>
-<div class="card-deck mx-auto">
-    <div th:each="product : ${products}" >
-        <div class="card text-center" style="width: 18rem;">
-            <img src="https://lp2.hm.com/hmgoepprod?set=quality%5B79%5D%2Csource%5B%2F6b%2F3f%2F6b3f5f51e4db457eaa3740ebade9321d85fd732f.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BDESCRIPTIVESTILLLIFE%5D%2Cres%5Bm%5D%2Chmver%5B1%5D&call=url[file:/product/main]" class="card-img-top" alt="...">
-            <div class="card-body">
+<div class="row row-cols-3 row-cols-md-1">
+    <div class="col-4" th:each="product : ${products}">
+        <div class="card h-100" >
+            <div class="card-body text-center">
                 <h5 class="card-title" th:text="${product.name}"></h5>
                 <p class="card-text" th:text="${product.description}"></p>
                 <h6 class="card-title" th:text="|${product.price} $|"></h6>
@@ -92,8 +90,10 @@
                     <button class="btn btn-light " type="submit">Add to cart</button>
                 </form>
             </div>
-        </div>
+
+    </div>
     </div>
 </div>
+
 </body>
 </html>
