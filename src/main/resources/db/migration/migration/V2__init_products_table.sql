@@ -7,8 +7,8 @@ create table products
     price decimal(5,2)   not null,
     color varchar(50) not null,
     star_rating decimal(5,2),
-    createdOn date default current_timestamp(),
-    updatedOn date
+    created_on date default current_timestamp(),
+    updated_on date
 );
 
 
